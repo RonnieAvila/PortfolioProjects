@@ -2,7 +2,7 @@
 # FROM PortfolioProject.Vaccinations
 # ORDER BY 3,4
 
-# Select data we are going to be using
+# SELECT DATA THAT IS GOING TO BE USED
 SELECT 
   location, date, total_cases, new_cases, total_deaths, population
 FROM
@@ -10,8 +10,9 @@ FROM
 ORDER BY
   1,2
 
-# Looking at Total_Cases vs Total_Deaths
-#Shows likelihood of dying if you contract COVID in the USA
+# LOOKING AT Total_Cases VS Total_Deaths
+# SHOWS LIKELIHOOD OF DYING IF YOU CONTRACT COVID IN THE USA
+
 SELECT 
   location, date, total_cases, total_deaths, population
 FROM
@@ -19,8 +20,8 @@ FROM
 ORDER BY
   1,2
 
-#Looking at Total Cases vs Population
-# Shows what percentage of population got COVID 
+# LOOKING AT TOTAL CASES VS POPULATION
+# SHOWS WHAT PERCENTAGE OF POPULATION GOT COVID 
 SELECT 
   location, date, total_cases, population, (Total_cases/population)*100 AS Infection_percentage
 FROM
@@ -30,19 +31,20 @@ WHERE
 ORDER BY
   1,2
 
-# Looking at countries with highest infection rate compared with population
+# LOOKING AT COUNTRIES WITH HIGHEST INFECTION RATE COMPARED WITH POPULATION
 
 SELECT 
    location, population, MAX(total_cases) AS Highest_Infection_Count, MAX((total_cases/population))*100 AS Infection_percentage
 FROM
   PortfolioProject.Covid_Deaths
-# WHERE location like '%states%'
+--WHERE location like '%states%'
 GROUP BY 
   location, population
 ORDER BY
   Infection_percentage desc
 
-# Showing countries with Highest Death Count per Population 
+# SHOWING COUNTRIES WITH HIGHEST DEATH COUNT PER POPULATION
+
 SELECT 
    location, MAX(cast(Total_deaths as int)) AS Total_Death_Count
 FROM
@@ -79,7 +81,8 @@ GROUP BY
 ORDER BY
   1,2
 
-# See Total Deathpercentage for the whole world
+# SEE TOTAL DEATHPERCENTAGE FOR THE WHOLE WORLD
+
 SELECT 
   SUM(new_cases) AS Total_Cases, SUM(cast(new_deaths as int)) AS Total_Deaths, SUM(cast(new_deaths as int))/SUM(new_cases)*100 AS deathpercentage
 FROM
@@ -91,7 +94,7 @@ WHERE continent is not null
 ORDER BY
 1, 2,
 
-#Looking at Total Population vs Vaccinations
+# LOOKING AT TOTAL POPULATION VS VACCINATIONS
 
 SELECT
   dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
@@ -109,7 +112,7 @@ WHERE dea.continent is not null
 ORDER BY 
   2, 3
   
-# USE CTE
+# USING CTE
 WITH PopvsVac AS (
   SELECT
   dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations
@@ -131,7 +134,8 @@ FROM
   PopvsVac
 
 
-#TempTable 
+#TEMPTABLE
+
 DROP TABLE IF EXISTS PortfolioProject.PercentPopulationVaccinated;
 CREATE TABLE PortfolioProject.PercentPopulationVaccinated
 (
